@@ -11,18 +11,23 @@ limit = float(sys.argv[2])
 
 input_numbers = []
 
+#assuming there is no empty line between the numbers. And assuming empty line as a end of input
 for _ in range(100):
     try:
         line = input().strip()
         if not line:
             break
         mynum = float(line)
+        if not (0.0 <= mynum <= 1000000000.0):
+            print("Please enter a number between 0.0 and 1000000000.0 (inclusive).")
+            exit()
         input_numbers.append(mynum)
-    except EOFError:
-        # Handles cases where the input stream ends unexpectedly
-        break
     except ValueError:
         print("Please enter a valid number.")
+        exit()
+    except EOFError:
+        break
+    
 
 output = []
 cummulative_sum = 0
@@ -39,3 +44,10 @@ for num in input_numbers:
 output.append(float(cummulative_sum))
 
 print(*output, sep="\n")
+
+#writing the output to a separate file
+output_filename = "output.txt"
+
+with open(output_filename, "w") as file:
+    for num in output:
+        file.write(f"{num}\n")
